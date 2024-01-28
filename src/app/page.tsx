@@ -79,7 +79,8 @@ export default function Home() {
         margin: '0 auto',
         display: 'flex',
         width: "95%",
-        justifyContent: "space-evenly"
+        justifyContent: "space-evenly",
+        marginTop:'30px'
       }}
     >
       {buttons.map((button, index) => {
