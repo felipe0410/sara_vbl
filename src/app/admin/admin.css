@@ -1,0 +1,62 @@
+/* Admin: mismo sistema de color y tipografía del sitio, en versión de trabajo. Prefijo ad-. */
+.ad-shell{min-height:100vh; display:grid; place-items:center; padding:24px 16px; background:var(--band)}
+.ad-card{background:var(--surface); border:1px solid var(--line); padding:clamp(20px,4vw,32px)}
+.ad-login{width:min(100%,400px); box-sizing:border-box; display:grid; gap:16px; color:var(--ink)}
+.ad-h1{font-family:var(--display); font-weight:400; font-size:clamp(1.8rem,4vw,2.4rem); line-height:1.1}
+.ad-muted{color:var(--muted); font-size:14px}
+.ad-shell > .ad-muted{color:var(--on-band-soft)}
+.ad-ok{color:#2E6B3F; font-size:14px}
+.ad-err{color:#B3261E; font-size:14px}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .ad-ok{color:#8FD19E} :root:not([data-theme="light"]) .ad-err{color:#FFB4AB} }
+.ad-link{background:none; border:0; padding:8px 0; color:var(--accent); font:inherit; font-size:14px; text-decoration:underline; text-underline-offset:4px; cursor:pointer; justify-self:start}
+.btn:disabled{opacity:.45; cursor:not-allowed}
+
+.ad-field{display:grid; gap:6px; min-width:0}
+.ad-field > span:first-child{font-size:11px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--muted)}
+.ad-field input,.ad-field select,.ad-field textarea{
+  width:100%; box-sizing:border-box; min-height:44px; padding:10px 12px; font:16px/1.4 var(--sans);
+  color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:0;
+}
+.ad-field textarea{resize:vertical}
+.ad-field input:focus,.ad-field select:focus,.ad-field textarea:focus{outline:2px solid var(--focus); outline-offset:1px}
+.ad-field small{font-size:12px; color:var(--muted)}
+.ad-field--full{grid-column:1/-1}
+.ad-pct{position:relative; display:block}
+.ad-pct input{padding-right:34px}
+.ad-pct::after{content:"%"; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--muted)}
+.ad-check{display:flex; align-items:center; gap:10px; min-height:44px; font-size:15px; align-self:end}
+.ad-check input{width:18px; height:18px; accent-color:var(--accent)}
+
+.ad-page{min-height:100vh; padding-bottom:110px}
+.ad-top{position:sticky; top:0; z-index:5; background:var(--band); color:var(--on-band)}
+.ad-top__in{max-width:960px; margin:0 auto; padding:0 16px; min-height:56px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.ad-top nav{display:flex; flex-wrap:wrap; gap:4px 18px}
+.ad-top nav a,.ad-top nav button{
+  font:500 11px/1 var(--sans); letter-spacing:.18em; text-transform:uppercase; color:var(--on-band-soft);
+  text-decoration:none; background:none; border:0; padding:12px 0; cursor:pointer;
+}
+.ad-top nav a:hover,.ad-top nav button:hover{color:var(--on-band)}
+.ad-main{max-width:960px; margin:0 auto; padding:32px 16px; display:grid; gap:20px}
+.ad-sec{display:grid; gap:14px}
+.ad-sec h2{font-family:var(--display); font-weight:400; font-size:1.5rem; line-height:1.2}
+.ad-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); gap:14px 18px}
+
+.ad-list{display:grid; gap:12px; grid-column:1/-1}
+.ad-list > .btn{justify-self:start}
+.ad-item{border:1px dashed var(--line); padding:14px; display:grid; gap:12px; background:var(--paper)}
+.ad-item__head{display:flex; justify-content:space-between; align-items:center; gap:8px}
+.ad-item__head strong{font-family:var(--display); font-weight:400; font-size:1.1rem; color:var(--accent)}
+.ad-item__head div{display:flex; gap:6px}
+.ad-item__head button{
+  min-width:40px; min-height:36px; padding:0 10px; border:1px solid var(--line); background:var(--surface);
+  color:var(--ink); font:500 12px/1 var(--sans); cursor:pointer;
+}
+.ad-item__head button:disabled{opacity:.35; cursor:default}
+.ad-item__head .ad-del{color:#B3261E; letter-spacing:.08em}
+
+.ad-errors{border:1px solid #B3261E; background:var(--surface); padding:14px 18px 14px 32px; list-style:disc; color:#B3261E; font-size:14px; display:grid; gap:4px}
+
+.ad-bar{position:fixed; left:0; right:0; bottom:0; z-index:5; background:var(--surface); border-top:1px solid var(--line); box-shadow:0 -10px 30px -20px rgba(43,21,25,.4); padding-bottom:env(safe-area-inset-bottom,0px)}
+.ad-bar__in{max-width:960px; margin:0 auto; padding:12px 16px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 16px}
+.ad-bar__btns{display:flex; gap:10px}
+@media (max-width:520px){ .ad-bar__btns{width:100%} .ad-bar__btns .btn{flex:1; padding:0 12px} }

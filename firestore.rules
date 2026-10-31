@@ -1,0 +1,29 @@
+rules_version = '2';
+
+// Contenido editable del sitio de Sara Valentina.
+// Lectura pública (lo pinta el sitio); escritura solo para las cuentas admin.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function esAdmin() {
+      return request.auth != null
+        && request.auth.token.email in ['saravbl93@gmail.com'];
+    }
+
+    match /sitio/contenido {
+      allow read: if true;
+      allow write: if esAdmin()
+        && request.resource.data.keys().hasOnly([
+             'contacto', 'tiktok', 'instagram', 'anio', 'nota', 'videos', 'western',
+             'mundos', 'marcas', 'formatos', 'actualizado', 'por'])
+        && request.resource.data.por == request.auth.token.email
+        && request.resource.data.videos is list && request.resource.data.videos.size() <= 40
+        && request.resource.data.western is list && request.resource.data.western.size() <= 20
+        && request.resource.data.marcas is list && request.resource.data.marcas.size() <= 40
+        && request.resource.data.formatos is list && request.resource.data.formatos.size() <= 40;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

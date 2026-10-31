@@ -70,3 +70,7 @@ node_modules/
 /out/
 /node_modules/
 *.tsbuildinfo
+
+# Emuladores de Firebase
+firestore-debug.log
+ui-debug.log

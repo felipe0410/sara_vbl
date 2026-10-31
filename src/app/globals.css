@@ -118,7 +118,7 @@ section[id]{scroll-margin-top:calc(var(--head) + env(safe-area-inset-top,0px))}
 
 /* ---------- footer ---------- */
 .foot{padding-block:48px 56px; border-top:1px solid var(--line)}
-.foot .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:end}
+.foot .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:flex-end}
 .foot .foot__name{font-family:var(--display); font-size:2rem; line-height:1; display:flex; align-items:center; gap:12px}
 .foot__name .rowel{color:var(--camel); width:16px; height:16px}
 .foot p{font-size:13px; color:var(--muted); letter-spacing:.06em}

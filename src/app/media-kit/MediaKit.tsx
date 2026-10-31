@@ -2,19 +2,9 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Out, Rowel } from "@/components/icons";
-import { EMAIL, HANDLE, INSTAGRAM, INSTAGRAM_DM, TIKTOK } from "@/lib/contacto";
+import { Cat, enlaces, pct, pctNum, useContenido } from "@/lib/contenido";
 
-type Cat = "beauty" | "fashion" | "lifestyle";
 type Filtro = Cat | "all";
-
-const VIDEOS: { cat: Cat; tipo: string; titulo: string; url: string }[] = [
-  { cat: "beauty", tipo: "Beauty · Tutorial", titulo: "Tutorial de maquillaje", url: "https://vt.tiktok.com/ZSgm7SX9H/" },
-  { cat: "beauty", tipo: "Beauty · Reseña", titulo: "Reseña de belleza", url: "https://vt.tiktok.com/ZSgm7joy8/" },
-  { cat: "beauty", tipo: "Beauty · Skincare", titulo: "Reseña de skincare", url: "https://vt.tiktok.com/ZSgm7y2RG/" },
-  { cat: "fashion", tipo: "Fashion · Unboxing", titulo: "Unboxing de moda", url: "https://vt.tiktok.com/ZSgm7Nv6F/" },
-  { cat: "fashion", tipo: "Fashion · Editorial", titulo: "Fashion editorial", url: "https://vt.tiktok.com/ZSgm75avT/" },
-  { cat: "lifestyle", tipo: "Lifestyle · GRWM", titulo: "Get ready with me", url: "https://vt.tiktok.com/ZSgm7fQLH/" },
-];
 
 const TILES: { cat: Cat; nombre: string; img: string; w: number }[] = [
   { cat: "fashion", nombre: "Fashion", img: "/img/fashion.jpg", w: 410 },
@@ -34,13 +24,6 @@ const PEEK: Record<Cat, string> = {
   fashion: "/img/fashion.jpg",
   lifestyle: "/img/lifestyle.jpg",
 };
-
-const WESTERN = [
-  { k: "Storytime", t: "Historia", viral: true, url: "https://vt.tiktok.com/ZSgm7kqmu/" },
-  { k: "Western chic", t: "Equitación", url: "https://vt.tiktok.com/ZSgm7DEPR/" },
-  { k: "Western life", t: "Vlog de campo", url: "https://vt.tiktok.com/ZSgm72mUU/" },
-  { k: "Vlog", t: "Vlog de viaje", url: "https://vt.tiktok.com/ZSgm7htT3/" },
-];
 
 const FORMATOS = [
   { id: "tiktok", v: "TikTok patrocinado" },
@@ -96,6 +79,11 @@ async function copiar(texto: string, node: HTMLElement | null): Promise<boolean>
 }
 
 export default function MediaKit() {
+  const c = useContenido();
+  const L = enlaces(c);
+  const { email: EMAIL, instagram: INSTAGRAM, tiktok: TIKTOK, instagramDM: INSTAGRAM_DM } = L;
+  const VIDEOS = c.videos;
+  const WESTERN = c.western;
   const [filtro, setFiltro] = useState<Filtro>("all");
   const [mailStatus, setMailStatus] = useState("");
 
@@ -122,10 +110,10 @@ export default function MediaKit() {
   const outRef = useRef<HTMLTextAreaElement>(null);
 
   const conteo = useMemo(() => {
-    const c: Record<Filtro, number> = { all: VIDEOS.length, beauty: 0, fashion: 0, lifestyle: 0 };
-    VIDEOS.forEach((v) => c[v.cat]++);
-    return c;
-  }, []);
+    const n: Record<Filtro, number> = { all: VIDEOS.length, beauty: 0, fashion: 0, lifestyle: 0 };
+    VIDEOS.forEach((v) => n[v.cat]++);
+    return n;
+  }, [VIDEOS]);
 
   // El dock del celular se esconde cuando el contacto está en pantalla.
   useEffect(() => {
@@ -269,7 +257,7 @@ export default function MediaKit() {
                   <Rowel />
                   Creator portfolio
                 </span>
-                <span>Media kit 2026</span>
+                <span>Media kit {c.anio}</span>
               </p>
               <h1 className="mast">
                 <span>Sara</span>
@@ -318,15 +306,15 @@ export default function MediaKit() {
           <div className="wrap">
             <ul className="coverlines" aria-label="Cifras destacadas">
               <li>
-                <b>18,1K</b>
+                <b>{c.tiktok.seguidores}</b>
                 <span>seguidores en TikTok</span>
               </li>
               <li>
-                <b>927,7K</b>
+                <b>{c.tiktok.vistas365}</b>
                 <span>visualizaciones en TikTok en los últimos 365 días</span>
               </li>
               <li>
-                <b>79,3 %</b>
+                <b>{pct(c.instagram.colombia)}</b>
                 <span>de mi audiencia de Instagram está en Colombia</span>
               </li>
             </ul>
@@ -396,29 +384,29 @@ export default function MediaKit() {
                 <div className="platform__top">
                   <h3>TikTok</h3>
                   <a href={TIKTOK} target="_blank" rel="noopener">
-                    {HANDLE} <Out />
+                    {L.tiktokHandle} <Out />
                   </a>
                 </div>
                 <p className="big">
-                  <b>18,1K</b>
+                  <b>{c.tiktok.seguidores}</b>
                   <span>seguidores</span>
                 </p>
                 <dl className="kpis">
                   <div>
                     <dt>Visualizaciones · 365 días</dt>
-                    <dd>927,7K</dd>
+                    <dd>{c.tiktok.vistas365}</dd>
                   </div>
                   <div>
                     <dt>Espectadores · 365 días</dt>
-                    <dd>753,3K</dd>
+                    <dd>{c.tiktok.espectadores365}</dd>
                   </div>
                 </dl>
                 <p className="label meters-label">Audiencia</p>
                 <Meters
                   items={[
-                    ["Espectadores mujeres", "74 %", 74],
-                    ["Seguidores en Colombia", "57,8 %", 57.8],
-                    ["Espectadores de 25 a 34 años", "52,3 %", 52.3],
+                    ["Espectadores mujeres", c.tiktok.mujeres],
+                    ["Seguidores en Colombia", c.tiktok.colombia],
+                    ["Espectadores de 25 a 34 años", c.tiktok.edad2534],
                   ]}
                 />
               </article>
@@ -427,33 +415,33 @@ export default function MediaKit() {
                 <div className="platform__top">
                   <h3>Instagram</h3>
                   <a href={INSTAGRAM} target="_blank" rel="noopener">
-                    {HANDLE} <Out />
+                    {L.instagramHandle} <Out />
                   </a>
                 </div>
                 <p className="big">
-                  <b>5.612</b>
+                  <b>{c.instagram.seguidores}</b>
                   <span>seguidores</span>
                 </p>
                 <dl className="kpis">
                   <div>
                     <dt>Visualizaciones · 30 días</dt>
-                    <dd>44.574</dd>
+                    <dd>{c.instagram.vistas30}</dd>
                   </div>
                   <div>
                     <dt>Visualizaciones · 90 días</dt>
-                    <dd>104.872</dd>
+                    <dd>{c.instagram.vistas90}</dd>
                   </div>
                 </dl>
                 <p className="label meters-label">Audiencia</p>
                 <Meters
                   items={[
-                    ["Audiencia en Colombia", "79,3 %", 79.3],
-                    ["Audiencia de 25 a 34 años", "34,8 %", 34.8],
+                    ["Audiencia en Colombia", c.instagram.colombia],
+                    ["Audiencia de 25 a 34 años", c.instagram.edad2534],
                   ]}
                 />
               </article>
             </div>
-            <p className="source">Métricas tomadas de las estadísticas de cada plataforma, 2026.</p>
+            <p className="source">{c.nota}</p>
           </div>
         </section>
 
@@ -508,8 +496,8 @@ export default function MediaKit() {
             </div>
 
             <ol className="index" id="index" ref={indexRef}>
-              {VIDEOS.map((v) => (
-                <li key={v.url} data-cat={v.cat} hidden={!(filtro === "all" || filtro === v.cat)}>
+              {VIDEOS.map((v, i) => (
+                <li key={i} data-cat={v.cat} hidden={!(filtro === "all" || filtro === v.cat)}>
                   <a
                     className="row"
                     href={v.url}
@@ -555,8 +543,8 @@ export default function MediaKit() {
                 hacen parte de mi identidad creativa.
               </p>
               <ul className="wlinks">
-                {WESTERN.map((w) => (
-                  <li key={w.url}>
+                {WESTERN.map((w, i) => (
+                  <li key={i}>
                     <a href={w.url} target="_blank" rel="noopener">
                       <span>
                         <span className="k">{w.k}</span>
@@ -639,8 +627,8 @@ export default function MediaKit() {
               <div className="brands-box">
                 <p className="label">Marcas presentes en mi experiencia y contenido</p>
                 <ul className="brands">
-                  {["Vichy", "Animus Lab", "La Roche-Posay", "Dermohelp", "Numbuzin"].map((b) => (
-                    <li key={b}>{b}</li>
+                  {c.marcas.map((b, i) => (
+                    <li key={i}>{b}</li>
                   ))}
                 </ul>
               </div>
@@ -693,14 +681,14 @@ export default function MediaKit() {
                 <li>
                   <span className="k">Instagram</span>
                   <a className="v" href={INSTAGRAM} target="_blank" rel="noopener">
-                    {HANDLE} <Out />
+                    {L.instagramHandle} <Out />
                   </a>
                   <span></span>
                 </li>
                 <li>
                   <span className="k">TikTok</span>
                   <a className="v" href={TIKTOK} target="_blank" rel="noopener">
-                    {HANDLE} <Out />
+                    {L.tiktokHandle} <Out />
                   </a>
                   <span></span>
                 </li>
@@ -846,7 +834,7 @@ export default function MediaKit() {
               <Rowel />
               Sara Valentina
             </p>
-            <p style={{ marginTop: 12 }}>Bogotá, Colombia · Boyacá &amp; Llanos Orientales · Media kit 2026</p>
+            <p style={{ marginTop: 12 }}>Bogotá, Colombia · Boyacá &amp; Llanos Orientales · Media kit {c.anio}</p>
           </div>
           <nav aria-label="Redes">
             <a href={INSTAGRAM} target="_blank" rel="noopener">
@@ -893,15 +881,15 @@ export default function MediaKit() {
   );
 }
 
-function Meters({ items }: { items: [string, string, number][] }) {
+function Meters({ items }: { items: [string, string][] }) {
   return (
     <ul className="meters">
-      {items.map(([label, val, v]) => (
+      {items.map(([label, val]) => (
         <li key={label}>
           <span className="m-label">{label}</span>
-          <span className="m-val">{val}</span>
+          <span className="m-val">{pct(val)}</span>
           <span className="bar" aria-hidden="true">
-            <i style={{ "--v": v } as React.CSSProperties} />
+            <i style={{ "--v": pctNum(val) } as React.CSSProperties} />
           </span>
         </li>
       ))}

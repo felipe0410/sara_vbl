@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { EMAIL } from "@/lib/contacto";
 
 /** Botón "Copiar" del correo: pasa a "Copiado" por 2 segundos. */
-export default function CopyMail({ className }: { className?: string }) {
+export default function CopyMail({ className, email }: { className?: string; email: string }) {
   const [copiado, setCopiado] = useState(false);
   const t = useRef<ReturnType<typeof setTimeout>>();
 
@@ -12,7 +11,7 @@ export default function CopyMail({ className }: { className?: string }) {
 
   function copiar() {
     try {
-      navigator.clipboard.writeText(EMAIL).then(() => {
+      navigator.clipboard.writeText(email).then(() => {
         setCopiado(true);
         clearTimeout(t.current);
         t.current = setTimeout(() => setCopiado(false), 2000);
