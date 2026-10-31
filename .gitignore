@@ -64,3 +64,9 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# Next.js
+/.next/
+/out/
+/node_modules/
+*.tsbuildinfo

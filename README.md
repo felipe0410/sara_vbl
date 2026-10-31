@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sara Valentina · sitio web
 
-## Getting Started
+Landing y media kit de Sara Valentina, creadora de contenido (beauty, fashion, lifestyle y western chic).
+El diseño viene de Claude Design ("Media kit y landing page") y está pasado a Next.js como sitio estático.
 
-First, run the development server:
+| Ruta          | Qué es                                                                 |
+|---------------|------------------------------------------------------------------------|
+| `/`           | Landing: hero en tríptico, sobre mí, cuatro mundos, cifras, marcas, contacto |
+| `/media-kit/` | Media kit 2026: comunidad, portafolio con filtros, western, colaboraciones y formulario que arma la propuesta |
+
+## Correr y publicar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # deja el sitio estático en out/
+npm run deploy   # build + firebase deploy --only hosting (proyecto sara-balaguera)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Dónde se cambia cada cosa
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Correo y redes:** `src/lib/contacto.ts`
+- **Cifras, videos, marcas y servicios:** listas al inicio de `src/app/page.tsx` y `src/app/media-kit/MediaKit.tsx`
+- **Fotos:** `public/img/` (mismo nombre de archivo = se reemplaza sin tocar código)
+- **Colores, tipografías, botones, barra y pie:** `src/app/globals.css` (tokens en `:root`, con modo oscuro)
+- **Estilos propios:** `src/app/landing.css` (prefijo `lp-`) y `src/app/media-kit/media-kit.css`
